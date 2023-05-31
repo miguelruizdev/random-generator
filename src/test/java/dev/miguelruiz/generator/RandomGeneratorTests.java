@@ -69,16 +69,15 @@ public class RandomGeneratorTests {
 
     @Test
     void shouldThrowIllegalStateException_whenSumOfProbabilitiesIsNotOne() {
+        // Input arrays differ in length
         int[] inputNumbers = {7, 5, 9};
         float[] inputProbabilities = {0.1f, 0.6f, 0.1f}; // Sum is 0.8, not 1.0
 
-        RandomGenerator randomGenerator = new RandomGenerator(inputNumbers, inputProbabilities, testGenerator);
-
-        Throwable thrown = catchThrowable(() -> RandomGeneratorTester.testNumberGenerator(randomGenerator));
+        Throwable thrown = catchThrowable(() -> new RandomGenerator(inputNumbers, inputProbabilities, testGenerator));
 
         assertThat(thrown)
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Number not found in the ranges. The probabilities should sum up to 1.");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The sum of probabilities must be approximately 1");
     }
 
 }

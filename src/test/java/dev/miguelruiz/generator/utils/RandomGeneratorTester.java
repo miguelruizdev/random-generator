@@ -15,7 +15,7 @@ public record RandomGeneratorTester() {
         Map<Integer, Integer> counters = new LinkedHashMap<>();
 
         for (int i = 0; i < ITERATIONS; i++) {
-            int currentNumber = numberGenerator.nextNumber();
+            int currentNumber = numberGenerator.nextNumberPro(); // point where to change the method to be tested, this could be extracted as a lambda
             counters.merge(currentNumber, 1, Integer::sum);
         }
 
