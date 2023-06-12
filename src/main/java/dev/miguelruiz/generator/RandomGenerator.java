@@ -15,8 +15,10 @@ public class RandomGenerator {
 
         inputLengthValidation(numbers, probabilities);
 
-        this.numbers = numbers;
-        this.probabilities = probabilities;
+        // Clone elements of the input arrays to ensure immutability
+        // (changes to the original arrays don't affect the internal arrays)
+        this.numbers = numbers.clone();
+        this.probabilities = probabilities.clone();
         this.generator = generator;
 
         this.cumulativeProbabilities = new float[probabilities.length];
@@ -34,7 +36,9 @@ public class RandomGenerator {
     }
 
     public int[] getNumbers() {
-        return numbers;
+        // When exposing the array, we return a clone to ensure immutability
+        // so modifications to the returned array don't affect the internal array
+        return numbers.clone();
     }
 
     public float[] getProbabilities() {
@@ -79,7 +83,7 @@ public class RandomGenerator {
 
         float generatedNumber = generator.nextFloat();
 
-//        int index = Arrays.binarySearch(cumulativeProbabilities, generatedNumber);
+        // int index = Arrays.binarySearch(cumulativeProbabilities, generatedNumber);
         int index = customBinarySearch(cumulativeProbabilities, generatedNumber);
 
         // Arrays.binarySearch method returns a "negative insertion point" when the search key is not found in the array or collection.
@@ -141,7 +145,7 @@ public class RandomGenerator {
 
         }
         return ~low;  // key not found, returning a negative insertion point
-//        return -(low + 1);  // would also work
+        // return -(low + 1);  // would also work
         // Why do we return low instead of high?
         // Because at the end of the loop, low is the index where the target should be inserted to maintain sorted order
     }
